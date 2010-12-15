@@ -103,7 +103,7 @@ function _vozmob_callback_record_callback($call_id, $recording_url, $recording_d
 watchdog('vozmob_callback', "in _vozmob_callback_record_callback($call_id, $recording_url, $recording_duration, $uid, $name, $number)");
 
   $message = t("New callback message recorded :: call_id: $call_id, recording_url: $recording_url, recording_duration: $recording_duration, uid: $uid, name: $name, number: $number");
-  watchdog($vozmob_callback, $message);
+  watchdog(vozmob_callback, $message);
 
 
 
