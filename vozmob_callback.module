@@ -102,10 +102,24 @@ function _vozmob_callback_get_record_script($vars) {
 function _vozmob_callback_record_callback($call_id, $recording_url, $recording_duration, $uid, $name, $number) {
 watchdog('vozmob_callback', "in _vozmob_callback_record_callback($call_id, $recording_url, $recording_duration, $uid, $name, $number)");
 
-  $message = t("New callback message recorded :: call_id: $call_id, recording_url: $recording_url, recording_duration: $recording_duration, uid: $uid, name: $name, number: $number");
-  watchdog(vozmob_callback, $message);
+  // Construct the new node object.
+  $node = new stdClass();
 
+  $node->title = "Callback message from $number";
+  $body = t("New callback message recorded with call_id: $call_id, recording_url: $recording_url, recording_duration: $recording_duration, uid: $uid, name: $name, number: $number");
+  $node->body = $body;
+  $node->type = 'story';
+  $node->created = time();
+  $node->changed = $node->created;
+  $node->status = 1;          // Published?
+  $node->promote = 1;       // Display on front page?
+  $node->sticky = 0;          // Display top of page?
+  $node->format = 1;         // Filtered HTML?
+  $node->uid = $uid;             //  Content owner uid (author)?
+  $node->language = 'en';
 
+  node_submit($node);
+  node_save($node);
 
   return 'Success';
 }
